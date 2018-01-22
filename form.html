@@ -1,0 +1,135 @@
+<html>
+<head>
+<meta name = "viewport" content = "width = device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;">		
+<script src="js/geo.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+<!-- // Style Pingendo -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="https://v40.pingendo.com/assets/bootstrap/bootstrap-4.0.0-beta.1.css" type="text/css">
+
+
+
+
+<script>
+function initialize_map()
+{
+    var myOptions = {
+	      zoom: 4,
+	      mapTypeControl: true,
+	      mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU},
+	      navigationControl: true,
+	      navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
+	      mapTypeId: google.maps.MapTypeId.ROADMAP      
+	    }	
+	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+}
+function initialize()
+{
+	if(geo_position_js.init())
+	{
+		document.getElementById('current').innerHTML="Receiving...";
+		geo_position_js.getCurrentPosition(show_position,function(){document.getElementById('current').innerHTML="Couldn't get location"},{enableHighAccuracy:true});
+	}
+	else
+	{
+		document.getElementById('current').innerHTML="Functionality not available";
+	}
+}
+
+function show_position(p)
+{
+	document.getElementById('current').innerHTML="latitude="+p.coords.latitude.toFixed(2)+" longitude="+p.coords.longitude.toFixed(2);
+	var pos=new google.maps.LatLng(p.coords.latitude,p.coords.longitude);
+	map.setCenter(pos);
+	map.setZoom(14);
+
+	var infowindow = new google.maps.InfoWindow({
+	    content: "<strong>yes</strong>"
+	});
+
+	var marker = new google.maps.Marker({
+	    position: pos,
+	    map: map,
+	    title:"You are here"
+	});
+
+	google.maps.event.addListener(marker, 'click', function() {
+	  infowindow.open(map,marker);
+	});
+	
+}
+</script >
+<style>
+	body {font-family: Helvetica;font-size:11pt;padding:0px;margin:0px}
+	#title {background-color:#e22640;padding:5px;}
+	#current {font-size:10pt;padding:5px;text-align:center;}
+   	
+</style>
+</head>
+<body onload="initialize_map();initialize()">
+
+      <!-- // Big title -->
+<div class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="text-center display-3 text-primary"><span class="symbol"><img src="Images/Caltrans.svg" alt=""></span></h1>
+		  <p></p>
+          <p class="text-center">Fill this form if you come across any issues with your route. <br>Be sure to take a picture of the issue and attach it to this form if you are able. </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+      <!-- // Map itself -->
+
+	<div id="current"><h1>Initializing...</h1></div>
+	<div id="map_canvas" style="width:320px; height:350px; margin: 0 auto"></div>
+	 
+	<!-- // Form that you fill -->
+	<br>
+	 <div class="row justify-content-center" id="book">
+          <div class="card">
+            <div class="card-body p-5">
+              <h3 class="pb-3">Submit an Issue</h3>
+              <form action="mailto:kr1337@humboldt.edu" method="POST">
+                <div class="form-group"> <label>Name</label>
+                  <input class="form-control" input type="name" placeholder="Your name, please"> </div>
+				  <div class="form-group"> <label>Latitude</label>
+                  <input class="form-control" placeholder="Enter Latitude"> </div>
+				  <div class="form-group"> <label>Longitude</label>
+                  <input class="form-control" placeholder="Enter Longitude"> </div>
+                <div class="form-group"> <label>Time</label>
+                  <input type="time" class="form-control"> </div>
+                <div class="form-group"> <label>Amount of potholes</label>
+                  <input type="number" class="form-control" placeholder=""> </div>
+	<div class="file-field">
+        <div class="btn btn-primary btn-sm">
+            <span>Choose file</span>
+            <input type="file">
+        </div>
+        <div class="file-path-wrapper">
+           <input class="file-path validate" type="text" placeholder="Upload your file">
+        </div>
+    </div>
+				  
+                <button type="submit" class="btn mt-2 btn-outline-dark">Submit</button>
+				
+				
+				
+              </form>
+            </div>
+          </div>
+        </div>	
+	
+	
+	
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+	
+</body>
+</html>
